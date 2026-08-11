@@ -17,6 +17,15 @@
       "pattern": "検索条件に合うプランがみつかりませんでした",
       "match_mode": "both",
       "frequency_minutes": 0
+    },
+    {
+      "id": 3,
+      "name": "星降るヴィレッジ 20-21",
+      "url": "https://tenguso.rwiths.net/r-withs/tfs0020a.do?hotelNo=129993&GCode=&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2026&ciDateM=09&ciDateD=20&coDateY=2026&coDateM=09&coDateD=21&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1&lowerCharge=0&upperCharge=999999",
+      "pattern_type": "text",
+      "pattern": "みつかりませんでした",
+      "match_mode": "both",
+      "frequency_minutes": 0
     }
   ]
 }
