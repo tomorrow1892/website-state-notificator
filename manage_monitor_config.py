@@ -10,14 +10,16 @@ STATE_PATH = Path("monitor_state.json")
 
 
 def load_json(path):
-    if not path.exists():
+    p = Path(path)
+    if not p.exists():
         return {}
-    with path.open("r", encoding="utf-8") as f:
+    with p.open("r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def save_json(path, data):
-    with path.open("w", encoding="utf-8") as f:
+    p = Path(path)
+    with p.open("w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
