@@ -3,6 +3,8 @@ import argparse
 import json
 import re
 import sys
+import urllib.request
+import urllib.error
 from pathlib import Path
 
 CONFIG_PATH = Path("monitor_config.json")
@@ -75,6 +77,30 @@ def add_target(args):
     frequency_minutes = int(args.frequency_minutes) if args.frequency_minutes else 15
     if frequency_minutes < 0:
         raise ValueError("frequency_minutes must be 0 or greater")
+
+    # verify the URL is reachable (HEAD preferred, fallback to GET)
+    def _check_url(u):
+        req = urllib.request.Request(u, method="HEAD")
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                return True
+        except urllib.error.HTTPError as he:
+            # Some servers disallow HEAD; try GET as fallback
+            if he.code == 405:
+                try:
+                    with urllib.request.urlopen(u, timeout=10) as r2:
+                        return True
+                except Exception as e:
+                    raise ValueError(f"URL is not reachable: {u} ({e})")
+            raise ValueError(f"URL returned HTTP error: {u} ({he.code})")
+        except Exception as e:
+            raise ValueError(f"URL is not reachable: {u} ({e})")
+
+    # attempt URL check
+    try:
+        _check_url(args.url)
+    except Exception as exc:
+        raise ValueError(f"Failed to reach URL '{args.url}': {exc}")
 
     # generate integer auto-increment id
     target_id = generate_next_integer_id(targets)
