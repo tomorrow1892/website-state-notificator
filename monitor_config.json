@@ -8,6 +8,15 @@
       "pattern": "最新ニュース",
       "match_mode": "appearance",
       "frequency_minutes": 0
+    },
+    {
+      "id": 2,
+      "name": "星降るヴィレッジ 9-19",
+      "url": "https://tenguso.rwiths.net/r-withs/tfs0020a.do?hotelNo=129993&vipCode=&sort=1&curPage=1&f_lang=ja&ciDateY=2026&ciDateM=09&ciDateD=19&coDateY=2026&coDateM=09&coDateD=20&otona=2&s1=0&s2=0&y1=0&y2=0&y3=0&y4=0&room=1",
+      "pattern_type": "text",
+      "pattern": "検索条件に合うプランがみつかりませんでした",
+      "match_mode": "both",
+      "frequency_minutes": 15
     }
   ]
 }
