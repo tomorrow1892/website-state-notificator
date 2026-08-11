@@ -241,6 +241,7 @@ def main(args):
     for target in targets:
         raw_id = target.get("id") or target.get("url")
         target_key = str(raw_id)
+        target_id = raw_id
         if not raw_id or not target.get("url"):
             print(f"スキップ: idまたはurlが指定されていない監視対象: {target}")
             continue
