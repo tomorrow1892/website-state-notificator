@@ -25,7 +25,7 @@ on:
         description: '監視頻度（分）'
         required: false
         type: string
-        default: '15'
+        default: '0'
 
 permissions:
   contents: write
