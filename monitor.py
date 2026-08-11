@@ -73,6 +73,20 @@ def parse_args():
         action="store_true",
         help="LINE送信を行わず、検出結果のみ表示します",
     )
+    parser.add_argument(
+        "--check-url",
+        help="確認したいURL。指定した場合はURLのフェッチとパターン一致判定のみを行います",
+    )
+    parser.add_argument(
+        "--check-pattern",
+        help="確認したい監視パターン。`--check-url` と合わせて指定します",
+    )
+    parser.add_argument(
+        "--check-pattern-type",
+        choices=["text", "regex"],
+        default="text",
+        help="チェック用監視パターンの種類。text または regex",
+    )
     return parser.parse_args()
 
 
@@ -94,6 +108,24 @@ def evaluate_pattern(content, target):
     if pattern_type == "regex":
         return bool(re.search(pattern, content, re.MULTILINE))
     return pattern in content
+
+
+def run_check_url_pattern(args):
+    if not args.check_url or args.check_pattern is None:
+        raise ValueError("--check-url と --check-pattern は両方指定する必要があります")
+
+    content = fetch_url(args.check_url)
+    target = {
+        "url": args.check_url,
+        "pattern": args.check_pattern,
+        "pattern_type": args.check_pattern_type,
+    }
+    matched = evaluate_pattern(content, target)
+    print("URL:", args.check_url)
+    print("パターン:", args.check_pattern)
+    print("タイプ:", args.check_pattern_type)
+    print("一致:", "はい" if matched else "いいえ")
+    return 0 if matched else 1
 
 
 def parse_iso_timestamp(value):
@@ -237,6 +269,9 @@ def main(args):
     updated_state = state.copy()
     any_notifications = False
     failed_targets = []
+
+    if args.check_url or args.check_pattern is not None:
+        return run_check_url_pattern(args)
 
     for target in targets:
         raw_id = target.get("id") or target.get("url")

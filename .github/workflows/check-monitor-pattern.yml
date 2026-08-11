@@ -1,0 +1,47 @@
+name: Check Monitor Pattern
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: '確認したいURL'
+        required: true
+        type: string
+      pattern:
+        description: '確認したい監視パターン'
+        required: true
+        type: string
+      pattern_type:
+        description: 'パターンの種類'
+        required: false
+        type: choice
+        options:
+          - text
+          - regex
+        default: text
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
+      - name: Check URL pattern
+        run: |
+          python monitor.py \
+            --check-url "${{ github.event.inputs.url }}" \
+            --check-pattern "${{ github.event.inputs.pattern }}" \
+            --check-pattern-type "${{ github.event.inputs.pattern_type }}"
