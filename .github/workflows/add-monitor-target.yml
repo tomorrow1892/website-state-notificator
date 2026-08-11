@@ -27,6 +27,9 @@ on:
         type: string
         default: '15'
 
+permissions:
+  contents: write
+
 jobs:
   add:
     runs-on: ubuntu-latest
@@ -35,6 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
       - name: Setup Python

@@ -8,6 +8,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   remove:
     runs-on: ubuntu-latest
@@ -16,6 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
       - name: Setup Python
