@@ -1,0 +1,64 @@
+name: Add Monitor Target
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: '監視対象名'
+        required: true
+        type: string
+      url:
+        description: '監視対象URL'
+        required: true
+        type: string
+      match_mode:
+        description: '判定モード: appearance / disappearance / both'
+        required: false
+        type: string
+        default: 'both'
+      pattern:
+        description: '監視パターン'
+        required: false
+        type: string
+        default: ''
+      frequency_minutes:
+        description: '監視頻度（分）'
+        required: false
+        type: string
+        default: '15'
+
+jobs:
+  add:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Add monitor target
+        run: |
+          python manage_monitor_config.py add \
+            --name "${{ github.event.inputs.name }}" \
+            --url "${{ github.event.inputs.url }}" \
+            --match-mode "${{ github.event.inputs.match_mode }}" \
+            --pattern "${{ github.event.inputs.pattern }}" \
+            --frequency-minutes "${{ github.event.inputs.frequency_minutes }}"
+
+      - name: Commit config update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add monitor_config.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Add monitor target: ${{ github.event.inputs.name }}"
+            git push
+          else
+            echo "No config changes to commit."
+          fi

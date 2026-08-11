@@ -1,0 +1,13 @@
+{
+  "targets": [
+    {
+      "id": 1,
+      "name": "English Radio 最新ニュース",
+      "url": "https://tomorrow1892.github.io/english-radio/#/list",
+      "pattern_type": "text",
+      "pattern": "最新ニュース",
+      "match_mode": "appearance",
+      "frequency_minutes": 0
+    }
+  ]
+}
