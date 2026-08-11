@@ -26,6 +26,15 @@
       "pattern": "みつかりませんでした",
       "match_mode": "both",
       "frequency_minutes": 0
+    },
+    {
+      "id": 4,
+      "name": "ポケモンGOPlusプラス",
+      "url": "https://www.pokemoncenter-online.com/4521329368009.html",
+      "pattern_type": "text",
+      "pattern": "品切れ",
+      "match_mode": "both",
+      "frequency_minutes": 0
     }
   ]
 }
