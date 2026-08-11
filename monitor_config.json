@@ -16,7 +16,7 @@
       "pattern_type": "text",
       "pattern": "検索条件に合うプランがみつかりませんでした",
       "match_mode": "both",
-      "frequency_minutes": 15
+      "frequency_minutes": 0
     }
   ]
 }
